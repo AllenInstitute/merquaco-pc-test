@@ -354,7 +354,8 @@ def generate_transcripts_mask(transcripts_image_path: Union[str, Path],
 
 
 def create_dapi_image(high_res_dapi_image_path: Union[str, Path],
-                      low_res_dapi_image_path: Union[str, Path]) -> np.ndarray:
+                      low_res_dapi_image_path: Union[str, Path],
+                      on_tissue_threshold_bin: int = 20) -> np.ndarray:
     """
     Creates a lower-resolution DAPI image by binning, normalizing, and removing off-tissue pixels.
 
@@ -387,7 +388,7 @@ def create_dapi_image(high_res_dapi_image_path: Union[str, Path],
     # Brighten image for better visualization and ilastik training
     dapi_image = np.clip(dapi_image*4, 0, 255).astype(np.uint8)
     # Remove off-tissue pixels
-    threshold = on_tissue_threshold(dapi_image, 20)
+    threshold = on_tissue_threshold(dapi_image, on_tissue_threshold_bin)
     dapi_image = np.where(dapi_image < threshold, 0, dapi_image)
     tiff.imwrite(low_res_dapi_image_path, dapi_image)
 

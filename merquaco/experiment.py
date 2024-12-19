@@ -465,7 +465,7 @@ class Experiment:
         if self.output_dir is not None:
             FOVDropout.save_fov_tsv(self.fovs_df, self.output_dir)
 
-    def run_full_pixel_classification(self, save_metrics: bool = True, regenerate = False):
+    def run_full_pixel_classification(self, save_metrics: bool = True, regenerate = False, on_tissue_threshold_bin: int = 20):
         """
         Runs entire pixel classification workflow:
             - generates binary masks for transcripts, DAPI, gel lifting, ventricles, and damage
@@ -505,7 +505,8 @@ class Experiment:
                                                 self.ilastik_program_path,
                                                 self.dapi_mask_pixel_path,
                                                 self.dapi_mask_object_path,
-                                                self.dapi_high_res_image_path)
+                                                self.dapi_high_res_image_path,
+                                                on_tissue_threshold_bin)
         else:
             self.dapi_mask = data_processing.process_path(self.dapi_mask_path)
 

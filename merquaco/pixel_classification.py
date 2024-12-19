@@ -399,7 +399,8 @@ def generate_dapi_mask(dapi_image_path: Union[str, Path],
                        ilastik_program_path: Union[str, Path],
                        pixel_classification_model_path: Union[str, Path],
                        object_classification_model_path: Union[str, Path],
-                       high_res_dapi_image_path: Union[str, Path] = '') -> np.ndarray:
+                       high_res_dapi_image_path: Union[str, Path] = '',
+                       on_tissue_threshold_bin: int = 20) -> np.ndarray:
     """
     Generate binary DAPI mask from compressde DAPI image or high-res DAPI output image
 
@@ -430,7 +431,7 @@ def generate_dapi_mask(dapi_image_path: Union[str, Path],
         if high_res_dapi_image_path == '':
             raise ValueError("Compressed DAPI image does not exist. high_res_dapi_image_path must be provided")
         # Get compressed DAPI image from high resolution DAPI image
-        create_dapi_image(high_res_dapi_image_path, dapi_image_path)
+        create_dapi_image(high_res_dapi_image_path, dapi_image_path, on_tissue_threshold_bin)
 
     # Generate mask using ilastik
     generate_mask(ilastik_program_path, dapi_image_path,
